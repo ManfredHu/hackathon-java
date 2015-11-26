@@ -1,0 +1,16 @@
+INFO:hackathon.launcher:app launching...
+ERROR:hackathon.launcher:app.yml not exists!
+[I 151126 20:27:35 server:271] Serving on http://127.0.0.1:5500
+[I 151126 20:27:35 handlers:58] Start watching changes
+[I 151126 20:27:35 handlers:60] Start detecting changes
+INFO:hackathon.launcher:app launching...
+ERROR:hackathon.launcher:app.yml not exists!
+INFO:hackathon.launcher:app launching...
+ERROR:hackathon.launcher:app.yml not exists!
+[I 151126 20:31:10 server:271] Serving on http://127.0.0.1:5500
+[I 151126 20:31:10 handlers:58] Start watching changes
+[I 151126 20:31:10 handlers:60] Start detecting changes
+INFO:hackathon.launcher:app launching...
+ERROR:hackathon.launcher:app.yml not exists!
+INFO:hackathon.launcher:app launching...
+ERROR:hackathon.launcher:app.yml not exists!

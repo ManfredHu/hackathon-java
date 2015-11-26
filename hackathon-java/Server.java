@@ -40,8 +40,10 @@ public class Server {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String inputLine = in.readLine();
 				String[] contents = inputLine.split(" ");
+				//输出contents
+				System.out.println("TEST!!!!!!!####!@#!@#" + contents);
 				if ("GET".equals(contents[0]) && "/".equals(contents[1])) {
-					socket.getOutputStream().write("Hello, world!\r\n".getBytes());
+					socket.getOutputStream().write("Hello, world!test\r\n".getBytes());
 					socket.getOutputStream().flush();
 				}
 
