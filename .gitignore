@@ -1,0 +1,15 @@
+.vagrant
+.idea
+*.iml
+*.log
+
+# java
+*.class
+.classpath
+target/
+.settings/
+logs/
+dump.rdb
+
+# vim
+.*.sw[opn]
