@@ -1,0 +1,15 @@
+hackathon-java/.vagrant
+hackathon-java/.idea
+hackathon-java/*.iml
+hackathon-java*.log
+
+# java
+hackathon-java*.class
+hackathon-java.classpath
+hackathon-javatarget/
+hackathon-java.settings/
+hackathon-javalogs/
+hackathon-javadump.rdb
+
+# vim
+hackathon-java.*.sw[opn]
