@@ -22,3 +22,5 @@ hackathon-java/out
 
 # vim
 hackathon-java.*.sw[opn]
+*.pyc
+*.pyc
