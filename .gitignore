@@ -10,6 +10,7 @@ hackathon-javatarget/
 hackathon-java.settings/
 hackathon-javalogs/
 hackathon-javadump.rdb
+hackathon-java/tests
 
 # vim
 hackathon-java.*.sw[opn]
