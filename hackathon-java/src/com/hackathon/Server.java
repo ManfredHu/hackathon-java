@@ -70,7 +70,16 @@ public class Server {
             //获取HTTP信息
             StringBuilder requestHeader = new StringBuilder("");
             StringBuilder requestBody = new StringBuilder("");
-            readInfo(requestHeader,requestBody);
+            if(!readInfo(requestHeader,requestBody)) {
+
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                return;
+            }
 
             //创建Request、Response对象
             this.request = new ServletRequest(requestHeader.toString(),requestBody.toString());
@@ -103,7 +112,7 @@ public class Server {
 
         }
 
-        private void readInfo(StringBuilder requestHeader,StringBuilder requestBody) {
+        private boolean readInfo(StringBuilder requestHeader,StringBuilder requestBody) {
 
             try {
 
@@ -112,7 +121,7 @@ public class Server {
                 String inputLine = null;
                 int contentLength = 0;
 
-                while ((inputLine = in.readLine()).length() > 0) {
+                while ((inputLine = in.readLine()) != null && inputLine.length() > 0) {
 
                     requestHeader.append(inputLine + "\n");
 
@@ -122,6 +131,9 @@ public class Server {
                         contentLength = Integer.parseInt(tmpA[1]);
                     }
                 }
+
+                //若请求头为空，返回false
+                if(inputLine == null) return false;
 
                 //获取请求体内容
                 if (contentLength != 0) {
@@ -140,6 +152,8 @@ public class Server {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+
+            return true;
         }
     }
 }
