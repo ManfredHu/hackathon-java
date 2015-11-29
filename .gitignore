@@ -1,15 +1,20 @@
 hackathon-java/.vagrant
 hackathon-java/.idea
 hackathon-java/*.iml
-hackathon-java*.log
+hackathon-java/*.log
 
 # java
-hackathon-java*.class
-hackathon-java.classpath
-hackathon-javatarget/
-hackathon-java.settings/
-hackathon-javalogs/
-hackathon-javadump.rdb
+hackathon-java/*.class
+hackathon-java/target/
+hackathon-java/logs/
+hackathon-java/dump.rdb
+
+#Eclipse
+hackathon-java/.settings/
+hackathon-java/bin/
+hackathon-java/.classpath
+hackathon-java/.project
+
 
 # vim
 hackathon-java.*.sw[opn]
