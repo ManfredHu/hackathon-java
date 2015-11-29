@@ -1,10 +1,10 @@
 hackathon-java/.vagrant
-hackathon-java/.idea
-hackathon-java/*.iml
 hackathon-java/*.log
+hackathon-java/.cache
 
 # java
 hackathon-java/*.class
+hackathon-java/classes
 hackathon-java/target/
 hackathon-java/logs/
 hackathon-java/dump.rdb
@@ -15,6 +15,10 @@ hackathon-java/bin/
 hackathon-java/.classpath
 hackathon-java/.project
 
+#idea
+hackathon-java/.idea
+hackathon-java/*.iml
+hackathon-java/out
 
 # vim
 hackathon-java.*.sw[opn]
