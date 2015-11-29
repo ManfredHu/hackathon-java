@@ -105,11 +105,18 @@ public class Server {
             //根据URI，获取映射的Servlet，将请求交给相应Servlet处理（先经过Filter）
             this.servlet = Servlet.getServlet(uri);
             if(this.servlet == null) {
-                response.setStatusCode("404","NOT FOUND");
+                response.setStatusCode("404", "NOT FOUND");
                 try {
                     response.outPut();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
                 }
             }
 

@@ -32,6 +32,8 @@ public class LoginApi extends Servlet {
 
         LoginParam lp = null;
 
+        System.out.println("****This Thread" + Thread.currentThread());
+
         try {
 
             lp = gson.fromJson(request.getData(),LoginParam.class);
@@ -92,7 +94,6 @@ public class LoginApi extends Servlet {
 
         //返回成功的Json信息
         try {
-            response.setStatusCode("200","OK");
             response.outPut(lr);
         } catch (IOException e) {
             e.printStackTrace();

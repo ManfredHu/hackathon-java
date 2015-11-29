@@ -53,7 +53,8 @@ public class ServletRequest implements Request {
 
 
         //3: 解析请求体
-        this.requestBody = requestBody;
+        if(requestBody != null)
+            this.requestBody = requestBody;
 
     }
 
@@ -94,7 +95,6 @@ public class ServletRequest implements Request {
             if((access_token = this.getParameter("access_token")) != null);
             else {
                 access_token = this.getHeader("Access-Token");
-                System.out.println("*****" + this.header); 
             }
 
             //如果access_token格式有问题，返回null
