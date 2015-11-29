@@ -1,8 +1,16 @@
 package com.hackathon.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+
+import org.aspectj.apache.bcel.generic.NEW;
+import org.springframework.expression.spel.ast.OpAnd;
 
 import com.google.gson.Gson;
 import com.hackathon.dao.CartDao;
@@ -23,15 +31,42 @@ import com.hackathon.servlet.Session;
  * Created by beatk on 2015/11/29.
  */
 public class OrdersApi extends Servlet {
+	
+	private static Object lock = new Object();
 
     @Override
     public void doGet(Request request, Response response) {
     	
-    	String param = request.getParameter("access_token");
-    	
+    	Session session =request.getSession();
+    	int sum =0;
+    	//查询订单
     	OrdersResult or = new  OrdersResult();
-
-    	response.setStatusCode("200", "OK");
+    	Order order = orderDao.getUserOrder(Integer.parseInt(session.getArtribute("userId").toString()));
+    	if(order!=null){
+	    	or.setId(order.getId());
+	    	for(Item item : order.getItems()){
+	    		or.addItem(item.getFoodID(),item.getCount());
+	    		sum +=item.getPrice()*item.getCount();
+	    	}
+	    	or.setTotal(sum);
+	    	
+	    	try {
+	        	response.outPut(or);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("查询订单出错！");
+			}
+    	}
+    	else{
+    		//response.setStatusCode("204", "No content");
+    		//response.setHeader("Content-Type", "application/text; charset=utf8");
+    		try {
+				response.outPut("");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
 
     @Override
@@ -44,11 +79,10 @@ public class OrdersApi extends Servlet {
     	//分解所传递的数据
     	op = gson.fromJson(data, OrderParam.class);
     	
-    	Map<String,Cart> cart  = cartDao.returnCarts();
-    	Set keys = cart.keySet();
+    	Cart cart = cartDao.getCart(op.getCart_id());
     	
     	//篮子不存在时，返回404错误
-    	if(cartDao.getCart(data)==null){
+    	if(cart ==null){
     		response.setStatusCode("404","Not Found");
             ErrorResult er = new ErrorResult();
             er.setCode("CART_NOT_FOUND");
@@ -62,9 +96,8 @@ public class OrdersApi extends Servlet {
     	}
  
     	//篮子不属于当前用户
-    	String param = request.getParameter("access_token");
     	Session session = request.getSession();
-    	if(!param.equals(session.getArtribute("userId"))){
+    	if(!session.getArtribute("userId").equals(cart.getUserId())){
     		response.setStatusCode("403","Forbidden");
             ErrorResult er = new ErrorResult();
             er.setCode("NOT_AUTHORIZED_TO_ACCESS_CART");
@@ -77,29 +110,8 @@ public class OrdersApi extends Servlet {
             return;
     	}
     	
-    	//食物库存不足
-    	Cart userCart = cartDao.getCart(data);
-    	Item[] items= userCart.getItems();
-    	for( Item item : items){
-    		if((foodDao.getFood(item.getFoodID())).getStock()<=0){
-    			response.setStatusCode("403","Forbidden");
-                ErrorResult er = new ErrorResult();
-                er.setCode("FOOD_OUT_OF_STOCK");
-                er.setMessage("食物库存不足");
-                try {
-                    response.outPut(er);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return;
-    		}
-    	}
-    	
     	//超过下单次数限制
-    	Map<Integer,Order> orderMap  = orderDao.getAllOrder();
-    	Set<Integer> orderKeys = orderMap.keySet();
-    	for(Integer keyInteger :orderKeys){
-    			if(orderDao.getOrderByUserId(keyInteger,(Integer)session.getArtribute(data)))
+    	if(orderDao.getUserOrder(Integer.parseInt(session.getArtribute("userId").toString())) != null) {
     				response.setStatusCode("403","Forbidden");
 	                ErrorResult er = new ErrorResult();
 	                er.setCode("ORDER_OUT_OF_LIMIT");
@@ -112,14 +124,39 @@ public class OrdersApi extends Servlet {
 	                return;
     	}
     	
-    	//成功
-    	OrderResult or = new OrderResult();
-    	try {
-    		 response.setStatusCode("200","OK");
-             response.outPut(or);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("输出200失败！");
+    	synchronized (lock) {
+    		
+    		//食物库存不足
+        	List<Item> items= cart.getItems();
+        	for( Item item : items){
+        		if((foodDao.getFood(item.getFoodID())).getStock() - item.getCount() < 0){
+        			response.setStatusCode("403","Forbidden");
+                    ErrorResult er = new ErrorResult();
+                    er.setCode("FOOD_OUT_OF_STOCK");
+                    er.setMessage("食物库存不足");
+                    try {
+                        response.outPut(er);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+        		}
+        	}
+        
+        	//成功
+        	OrderResult or = new OrderResult();
+        	Order order = new Order((Integer)session.getArtribute(op.getCart_id()), 
+        			cart.getItems());
+        	foodDao.SubFoodCount(items);
+        	orderDao.addOrder(order);
+        	or.setId(order.getId().toString());
+        	try {
+                 response.outPut(or);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    			System.out.println("下单失败！");
+    		}
+			
 		}
     }
 

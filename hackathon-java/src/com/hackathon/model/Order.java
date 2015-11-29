@@ -3,6 +3,8 @@ package com.hackathon.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hackathon.model.Cart.Item;
+
 /**
  * Created by beatk on 2015/11/28.
  */
@@ -10,7 +12,7 @@ public class Order {
 
     private static Integer nextId = 1;
 
-    private Integer id = 0;                                     //订单id号
+    private String id = "";                                     //订单id号
     private Integer user_id = 0;                                //下单用户id
     private List<Cart.Item> items = new ArrayList<Cart.Item>(); //订单列表
     private Integer total = 0;                                  //订单总价格
@@ -19,7 +21,7 @@ public class Order {
 
         //获取id时要同步
         synchronized(nextId) {
-            id = nextId++;
+            id = hashCode() + "";
         }
 
         //设置其他项
@@ -27,7 +29,7 @@ public class Order {
         setItems(items);
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -43,7 +45,7 @@ public class Order {
         return total;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -64,9 +64,8 @@ public class Cart {
 
     }
 
-    public Item[] getItems() {
-        Item[] itema = new Item[3];
-        return this.items.toArray(itema);
+    public List<Item> getItems() {
+        return this.items;
     }
 
     public Integer getUserId() {

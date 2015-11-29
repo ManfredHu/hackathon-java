@@ -10,8 +10,8 @@ import java.util.Map;
  * Created by beatk on 2015/11/27.
  */
 public class ServletRequest implements Request {
-
-    private Map<String,String> header = new HashMap<String,String>();
+	
+	private Map<String,String> header = new HashMap<String,String>();
 
     private String requestType = "";
 

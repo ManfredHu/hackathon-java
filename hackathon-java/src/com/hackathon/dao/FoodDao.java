@@ -2,6 +2,7 @@ package com.hackathon.dao;
 
 import java.util.List;
 
+import com.hackathon.model.Cart.Item;
 import com.hackathon.model.Food;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -26,6 +27,16 @@ public class FoodDao extends HibernateDaoSupport {
      */
     public List<Food> getAllFoods() {
     	return (List<Food>)getHibernateTemplate().find("from Food");
+    }
+    
+    public void SubFoodCount(List<Item> items) {
+    	
+    	for(Item item : items) {
+    		Food food = getFood(item.getFoodID());
+    		food.setStock(food.getStock() - item.getCount());
+    		getHibernateTemplate().update(food);
+    	
+    	}
     }
     
 }

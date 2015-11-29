@@ -62,7 +62,6 @@ public class CartDao {
      * @return      对应id的购物车对象(如果不存在则返回null)
      */
     public Cart getCart(String id) {
-
         return carts.get(id);
     }
 }

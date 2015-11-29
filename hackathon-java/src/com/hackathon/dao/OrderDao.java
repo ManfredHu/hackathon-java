@@ -1,5 +1,6 @@
 package com.hackathon.dao;
 
+import com.google.gson.Gson;
 import com.hackathon.model.Food;
 import com.hackathon.model.Order;
 import com.hackathon.model.User;
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class OrderDao {
 
-    private static Map<Integer,Order> orders = new HashMap<>();
+    private static Map<String,Order> orders = new HashMap<String,Order>();
 
     /**
      * 添加新的订单，如果订单id已存在，则不添加
@@ -22,7 +23,7 @@ public class OrderDao {
     public void addOrder(Order order) {
 
         if(orders.get(order.getId()) != null) return;
-        orders.put(order.getId(),order);
+        		orders.put(order.getId(),order);
     }
 
     /**
@@ -33,7 +34,7 @@ public class OrderDao {
     public boolean updateOrder(Order order) {
 
         if(orders.get(order.getId()) == null) return false;
-        orders.put(order.getId(),order);
+        		orders.put(order.getId(),order);
         return true;
     }
 
@@ -59,9 +60,23 @@ public class OrderDao {
         return orders.get(id);
     }
     
-
-    public Map<Integer,Order> getAllOrder(){
+    public Map<String,Order> getAllOrder(){
     	return orders;
+    }
+    
+    public Order getUserOrder(Integer userId) {
+    	
+    	Gson gson = new Gson();
+    	
+    	for(Order order : orders.values()) {
+    		//System.out.println("*****@！@@@@: " + gson.toJson(order) + "\n");
+    		Integer tmp = order.getUser_id();
+    		if(tmp == userId) {
+    			return order;
+    		}
+    		System.out.println("*****@！@@@@: " + gson.toJson(order) + "\n");
+    	}
+    	return null;
     }
     
     /**

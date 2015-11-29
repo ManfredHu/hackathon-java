@@ -135,7 +135,7 @@ public class CartsApi extends Servlet {
             }
             return;
         }
-
+/*
         if((food.getStock() - fd.getCount()) < 0) {
 
             //食物找不到
@@ -150,6 +150,7 @@ public class CartsApi extends Servlet {
             }
             return;
         }
+*/
 
 
         Integer foodid = fd.getFood_id();
