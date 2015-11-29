@@ -88,6 +88,31 @@
             <property name="FoodDao" ref="FoodDao" />
         </bean>
 
+        <bean id="Carts"
+              class="com.hackathon.api.CartsApi" >
+            <property name="UserDao" ref="UserDao" />
+            <property name="FoodDao" ref="FoodDao" />
+            <property name="CartDao" ref="CartDao" />
+            <property name="OrderDao" ref="OrderDao" />
+        </bean>
+
+        <bean id="Orders"
+              class="com.hackathon.api.OrdersApi" >
+            <property name="UserDao" ref="UserDao" />
+            <property name="FoodDao" ref="FoodDao" />
+            <property name="CartDao" ref="CartDao" />
+            <property name="OrderDao" ref="OrderDao" />
+        </bean>
+
+        <bean id="AdminOrders"
+              class="com.hackathon.api.AdminOrdersApi" >
+            <property name="UserDao" ref="UserDao" />
+            <property name="FoodDao" ref="FoodDao" />
+            <property name="CartDao" ref="CartDao" />
+            <property name="OrderDao" ref="OrderDao" />
+        </bean>
+
+
 </beans>
 
 
