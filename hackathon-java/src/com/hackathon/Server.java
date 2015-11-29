@@ -29,8 +29,7 @@ public class Server {
         ApplicationContext ctx =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
         Servlet.initServlet(ctx);
-
-        System.out.println("***Server Init Over");
+        
 
         try {
             serverSocket = new ServerSocket(8080);
@@ -103,6 +102,7 @@ public class Server {
             }
 
             //根据URI，获取映射的Servlet，将请求交给相应Servlet处理（先经过Filter）
+            System.out.println("****uri =: " + uri);
             this.servlet = Servlet.getServlet(uri);
             if(this.servlet == null) {
                 response.setStatusCode("404", "NOT FOUND");
@@ -110,19 +110,13 @@ public class Server {
                     response.outPut();
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return;
                 }
-            }
+            }else {
 
-            this.filter = new ServletFilter(this.servlet);
-            filter.doFilter(request,response);
-            System.out.println("****Servlet Over");
+                this.filter = new ServletFilter(this.servlet);
+                filter.doFilter(request,response);
+                System.out.println("****Servlet Over");
+            }
 
             try {
                 socket.close();
