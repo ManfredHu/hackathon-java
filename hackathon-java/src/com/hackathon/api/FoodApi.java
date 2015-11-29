@@ -19,11 +19,7 @@ public class FoodApi extends Servlet {
 	@Override
 	public void doGet(Request request, Response response) {
 		// TODO Auto-generated method stub
-//		System.out.println("access_token&&"+request.getParameter("access_token"));
-//		System.out.println("Access_Token&&"+request.getParameter("Access_Token"));
 		List<Food> listFdFoods = foodDao.getAllFoods();
-//		Gson gson = new Gson();
-//		String str = gson.toJson(listFdFoods);
 		
 		try {
 			response.outPut(listFdFoods);

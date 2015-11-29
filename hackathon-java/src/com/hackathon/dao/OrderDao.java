@@ -1,8 +1,11 @@
 package com.hackathon.dao;
 
+import com.hackathon.model.Food;
 import com.hackathon.model.Order;
+import com.hackathon.model.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,5 +57,13 @@ public class OrderDao {
     public Order getOrder(Integer id) {
 
         return orders.get(id);
+    }
+    
+    /**
+     * 获取全部订单
+     * @return      全部订单实体
+     */
+    public List<Order> getAllOrders() {
+    	return (List<Order>)orders.values();
     }
 }
