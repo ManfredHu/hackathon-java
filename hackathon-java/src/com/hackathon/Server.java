@@ -70,30 +70,52 @@ public class Server {
             //获取HTTP信息
             StringBuilder requestHeader = new StringBuilder("");
             StringBuilder requestBody = new StringBuilder("");
-            readInfo(requestHeader,requestBody);
+            if(!readInfo(requestHeader,requestBody)) {
+
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                return;
+            }
 
             //创建Request、Response对象
             this.request = new ServletRequest(requestHeader.toString(),requestBody.toString());
+            String uri = "";    //请求的处理程序的uri
 
-            //根据URI，获取映射的Servlet，将请求交给相应Servlet处理（先经过Filter）
+            //判断请求方法，设置uri
             if(!this.request.getRequestURI().equals("PATCH")) {
 
-                this.servlet = Servlet.getServlet(this.request.getRequestURI());
-                if(this.servlet == null) {
-                    response.setStatusCode("404","NOT FOUND");
-                    try {
-                        response.outPut();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                uri = this.request.getRequestURI();
 
-                this.filter = new ServletFilter(this.servlet);
-                filter.doFilter(request,response);
-                System.out.println("****Servlet Over");
-            } else {
+            }else {    //如果请求方法类型为PATCH,则进行特殊的URL解析
 
+                //获取patchParam参数
+                String[] tmp = request.getRequestURI().split("/");
+                request.setPatchParam(tmp[tmp.length - 1]);
+
+                //获取Patch请求URI
+                uri = request.getRequestURI().substring(0,
+                        request.getRequestURI().length()
+                                - request.getPatchParam().length());
             }
+
+            //根据URI，获取映射的Servlet，将请求交给相应Servlet处理（先经过Filter）
+            this.servlet = Servlet.getServlet(uri);
+            if(this.servlet == null) {
+                response.setStatusCode("404","NOT FOUND");
+                try {
+                    response.outPut();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            this.filter = new ServletFilter(this.servlet);
+            filter.doFilter(request,response);
+            System.out.println("****Servlet Over");
 
             try {
                 socket.close();
@@ -103,7 +125,8 @@ public class Server {
 
         }
 
-        private void readInfo(StringBuilder requestHeader,StringBuilder requestBody) {
+        //初始过程：解析HTTP请求，获取请求报头以及请求体
+        private boolean readInfo(StringBuilder requestHeader,StringBuilder requestBody) {
 
             try {
 
@@ -112,7 +135,7 @@ public class Server {
                 String inputLine = null;
                 int contentLength = 0;
 
-                while ((inputLine = in.readLine()).length() > 0) {
+                while ((inputLine = in.readLine()) != null && inputLine.length() > 0) {
 
                     requestHeader.append(inputLine + "\n");
 
@@ -122,6 +145,9 @@ public class Server {
                         contentLength = Integer.parseInt(tmpA[1]);
                     }
                 }
+
+                //若请求头为空，返回false
+                if(inputLine == null) return false;
 
                 //获取请求体内容
                 if (contentLength != 0) {
@@ -140,6 +166,8 @@ public class Server {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+
+            return true;
         }
     }
 }

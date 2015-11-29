@@ -23,6 +23,8 @@ public class ServletRequest implements Request {
 
     private Session session = null;
 
+    private String patchParam = "";
+
     public ServletRequest(String requestHeader,String requestBody) {
 
         //1: 解析请求报头
@@ -112,5 +114,15 @@ public class ServletRequest implements Request {
     @Override
     public String getData() {
         return this.requestBody;
+    }
+
+    @Override
+    public void setPatchParam(String param) {
+        this.patchParam = param;
+    }
+
+    @Override
+    public String getPatchParam() {
+        return this.patchParam;
     }
 }
