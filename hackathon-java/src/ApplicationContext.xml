@@ -65,6 +65,12 @@
               class="com.hackathon.dao.FoodDao"
               parent="daoTemplate"/>
 
+        <bean id="CartDao"
+              class="com.hackathon.dao.CartDao" />
+
+        <bean id="OrderDao"
+              class="com.hackathon.dao.OrderDao" />
+
         <!-- 为Servlet注入DAO组件 -->
         <bean id="LoginApi"
               class="com.hackathon.api.LoginApi" >

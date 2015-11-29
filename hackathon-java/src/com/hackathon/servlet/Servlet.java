@@ -1,6 +1,8 @@
 package com.hackathon.servlet;
 
+import com.hackathon.dao.CartDao;
 import com.hackathon.dao.FoodDao;
+import com.hackathon.dao.OrderDao;
 import com.hackathon.dao.UserDao;
 import org.springframework.context.ApplicationContext;
 
@@ -14,6 +16,8 @@ public abstract class Servlet {
 
     protected UserDao userDao;
     protected FoodDao foodDao;
+    protected CartDao cartDao;
+    protected OrderDao orderDao;
 
     public UserDao getUserDao() {
         return userDao;
@@ -22,7 +26,6 @@ public abstract class Servlet {
     public FoodDao getFoodDao() {
         return foodDao;
     }
-
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -31,6 +34,23 @@ public abstract class Servlet {
         this.foodDao = foodDao;
     }
 
+    public CartDao getCartDao() {
+        return cartDao;
+    }
+
+    public OrderDao getOrderDao() {
+        return orderDao;
+    }
+
+    public void setCartDao(CartDao cartDao) {
+        this.cartDao = cartDao;
+    }
+
+    public void setOrderDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    //Servlet实例池
     private static Map<String,Servlet> servlets = new HashMap<String,Servlet>();
 
     /**
