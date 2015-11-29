@@ -18,6 +18,7 @@ public class ServletSession implements Session {
 
     public ServletSession() {
         this.access_token = this.hashCode() + "";
+        this.sessionPool.put(access_token, this);
 
     }
 
