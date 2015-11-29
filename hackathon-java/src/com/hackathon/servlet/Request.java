@@ -52,4 +52,16 @@ public interface Request {
      * @return  请求体内容
      */
     String getData();
+
+    /**
+     * 设置PATCH方法的参数
+     * @param param PATCH参数
+     */
+    void setPatchParam(String param);
+
+    /**
+     * 获取PATCH方法的参数
+     * @return    patch参数
+     */
+    String getPatchParam();
 }

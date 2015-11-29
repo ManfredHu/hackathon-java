@@ -34,7 +34,6 @@ public class LoginApi extends Servlet {
         try {
 
             lp = gson.fromJson(request.getData(),LoginParam.class);
-            System.out.println("**** "+ lp.getUsername() + " " + lp.getPassword());
 
         }catch (JsonSyntaxException e) {
 
