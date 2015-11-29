@@ -74,14 +74,24 @@ public class ServletResponse implements Response {
 
         OutputStream os =  socket.getOutputStream();
 
-        System.out.println("***Response: \n" +
-                this.statusCode + " " + this.codeStatement + "\n"
-                + this.header);
+        if(this.statusCode.equals("204")) {
 
-        out.write((this.statusCode + " " + this.codeStatement + "\n"
-                + this.header ).getBytes("UTF-8"));
+            System.out.println("***Response: \n" +
+                    "HTTP/1.1 " + this.statusCode + " " + this.codeStatement);
 
+            out.write(("HTTP/1.1 " + this.statusCode + " " + this.codeStatement)
+                    .getBytes("UTF-8"));
+        }else {
+
+            System.out.println("***Response: \n" +
+                    "HTTP/1.1 " + this.statusCode + " " + this.codeStatement + "\n"
+                    + this.header);
+
+            out.write(("HTTP/1.1 " + this.statusCode + " " + this.codeStatement + "\n"
+                    + this.header ).getBytes("UTF-8"));
+        }
 
         os.flush();
     }
+
 }

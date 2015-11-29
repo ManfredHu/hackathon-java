@@ -32,8 +32,6 @@ public class LoginApi extends Servlet {
 
         LoginParam lp = null;
 
-        System.out.println("****This Thread" + Thread.currentThread());
-
         try {
 
             lp = gson.fromJson(request.getData(),LoginParam.class);
@@ -45,6 +43,21 @@ public class LoginApi extends Servlet {
             ErrorResult er = new ErrorResult();
             er.setCode("MALFORMED_JSON");
             er.setMessage("格式错误");
+            try {
+                response.outPut(er);
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+            return;
+        }
+
+        if(lp == null) {
+
+            //请求体为空
+            response.setStatusCode("400","Bad Request");
+            ErrorResult er = new ErrorResult();
+            er.setCode("EMPTY_REQUEST");
+            er.setMessage("请求体为空");
             try {
                 response.outPut(er);
             } catch (IOException e2) {

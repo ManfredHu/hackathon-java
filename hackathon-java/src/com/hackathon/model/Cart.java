@@ -106,7 +106,19 @@ public class Cart {
         int itemsCount = 0;
 
         //添加的数量不正确，返回false
-        if(count <= 0) return false;
+        if(count <= 0) {
+
+            for(Item item : items) {
+                if(item.getFoodID().equals(foodID)) {
+                    if((item.getCount() - count) < 0) {
+                        item.setCount(0);
+                    }else {
+                        item.setCount(item.getCount() - count);
+                    }
+                }
+            }
+            return true;
+        }
 
         for (Item item : items) {
             itemsCount += item.getCount();

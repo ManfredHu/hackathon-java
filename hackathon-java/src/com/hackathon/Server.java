@@ -85,7 +85,9 @@ public class Server {
             String uri = "";    //请求的处理程序的uri
 
             //判断请求方法，设置uri
-            if(!this.request.getRequestURI().equals("PATCH")) {
+
+
+            if(!this.request.getRequestType().equals("PATCH")) {
 
                 uri = this.request.getRequestURI();
 
@@ -98,7 +100,8 @@ public class Server {
                 //获取Patch请求URI
                 uri = request.getRequestURI().substring(0,
                         request.getRequestURI().length()
-                                - request.getPatchParam().length());
+                                - request.getPatchParam().length() - 1);
+
             }
 
             //根据URI，获取映射的Servlet，将请求交给相应Servlet处理（先经过Filter）

@@ -158,6 +158,7 @@ public class CartsApi extends Servlet {
 
         //添加食物
         boolean isSuccess = cart.addItems(foodid,foodCount,foodPrice);
+
         if(!isSuccess) {
 
             //食物找不到
@@ -171,6 +172,14 @@ public class CartsApi extends Servlet {
                 e2.printStackTrace();
             }
             return;
+        }
+
+        //成功添加
+        response.setStatusCode("204","No content");
+        try {
+            response.outPut();
+        } catch (IOException e2) {
+            e2.printStackTrace();
         }
     }
 }
