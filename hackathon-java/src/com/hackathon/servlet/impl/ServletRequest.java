@@ -86,12 +86,13 @@ public class ServletRequest implements Request {
     public Session getSession(boolean isCreated) {
 
         if(this.getParameter("access_token") != null
-                || this.getHeader("access_token") != null) {
+                || this.getHeader("Access-Token") != null) {
 
             String access_token = "";
             if((access_token = this.getParameter("access_token")) != null);
             else {
-                access_token = this.getHeader("access_token");
+                access_token = this.getHeader("Access-Token");
+                System.out.println("*****" + this.header); 
             }
 
             //如果access_token格式有问题，返回null

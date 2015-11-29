@@ -75,6 +75,12 @@
               class="com.hackathon.api.Welcome" >
             <property name="UserDao" ref="UserDao" />
         </bean>
+        
+        <bean id="Food"
+              class="com.hackathon.api.FoodApi" >
+            <property name="UserDao" ref="UserDao" />
+            <property name="FoodDao" ref="FoodDao" />
+        </bean>
 
 </beans>
 
