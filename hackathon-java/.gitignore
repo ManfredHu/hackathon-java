@@ -3,6 +3,9 @@
 *.iml
 *.log
 
+#python
+__pycache__/
+
 # java
 *.class
 .classpath
@@ -10,6 +13,7 @@ target/
 .settings/
 logs/
 dump.rdb
+classes/
 
 # vim
 .*.sw[opn]

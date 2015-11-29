@@ -1,0 +1,3 @@
+language: java
+script:
+  - ./apache-tomcat-6.0.44/bin/startup.sh
