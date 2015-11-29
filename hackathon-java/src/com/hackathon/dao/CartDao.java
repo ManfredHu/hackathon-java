@@ -12,6 +12,11 @@ public class CartDao {
 
     //内存数据库（购物车）
     private static Map<String,Cart> carts = new HashMap<String,Cart>();
+    
+    //获取内存数据库
+    public Map<String,Cart> returnCarts(){
+    	return carts;
+    }
 
     /**
      * 添加新的购物车，如果购物车已存在（相同ID的购物车）

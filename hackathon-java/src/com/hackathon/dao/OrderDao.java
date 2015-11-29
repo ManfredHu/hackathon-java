@@ -59,6 +59,27 @@ public class OrderDao {
         return orders.get(id);
     }
     
+
+    public Map<Integer,Order> getAllOrder(){
+    	return orders;
+    }
+    
+    /**
+     * 根据订单id和用户id判断订单是否存在
+     * @param id			订单id
+     * @param userId		用户id
+     * @return				订单是否存在
+     */
+    public boolean getOrderByUserId(Integer id,Integer userId){
+    	
+    	for(int t=0;t<orders.size();t++){
+    		if(orders.get(id).getUser_id()==userId){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     /**
      * 获取全部订单
      * @return      全部订单实体
