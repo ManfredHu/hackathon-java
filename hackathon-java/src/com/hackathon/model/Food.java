@@ -7,7 +7,7 @@ public class Food {
 
     private Integer id;         //食物ID
     private Integer stock;      //食物储量
-    private String  price;      //食物价格
+    private Integer  price;      //食物价格
 
     public void setId(Integer id) {
         this.id = id;
@@ -17,9 +17,6 @@ public class Food {
         this.stock = stock;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
 
     public Integer getId() {
 
@@ -30,7 +27,12 @@ public class Food {
         return stock;
     }
 
-    public String getPrice() {
-        return price;
-    }
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+    
 }

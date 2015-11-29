@@ -11,9 +11,11 @@ public class Cart {
 
     private String id = "";                         //购物车id
     private List<Item> items = new ArrayList<Item>();   //购物车物品
+    private Integer userId = 0;                      //用户id
 
-    public Cart() {
+    public Cart(Integer userId) {
         this.id = this.hashCode() + "";
+        this.userId = userId;
     }
 
     public static class Item {
@@ -65,6 +67,14 @@ public class Cart {
     public Item[] getItems() {
         Item[] itema = new Item[3];
         return this.items.toArray(itema);
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**

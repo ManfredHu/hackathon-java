@@ -7,10 +7,12 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.hackathon.dao.CartDao;
 import com.hackathon.model.Cart;
+import com.hackathon.model.Order;
 import com.hackathon.model.Cart.Item;
 import com.hackathon.param.OrderParam;
 import com.hackathon.result.ErrorResult;
 import com.hackathon.result.OrderResult;
+import com.hackathon.result.OrdersResult;
 import com.hackathon.servlet.Request;
 import com.hackathon.servlet.Response;
 import com.hackathon.servlet.Servlet;
@@ -24,7 +26,12 @@ public class OrdersApi extends Servlet {
 
     @Override
     public void doGet(Request request, Response response) {
+    	
+    	String param = request.getParameter("access_token");
+    	
+    	OrdersResult or = new  OrdersResult();
 
+    	response.setStatusCode("200", "OK");
     }
 
     @Override
@@ -89,10 +96,24 @@ public class OrdersApi extends Servlet {
     	}
     	
     	//超过下单次数限制
+    	Map<Integer,Order> orderMap  = orderDao.getAllOrder();
+    	Set<Integer> orderKeys = orderMap.keySet();
+    	for(Integer keyInteger :orderKeys){
+    			if(orderDao.getOrderByUserId(keyInteger,(Integer)session.getArtribute(data)))
+    				response.setStatusCode("403","Forbidden");
+	                ErrorResult er = new ErrorResult();
+	                er.setCode("ORDER_OUT_OF_LIMIT");
+	                er.setMessage("每个用户只能下一单");
+	                try {
+	                    response.outPut(er);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	                return;
+    	}
     	
     	//成功
     	OrderResult or = new OrderResult();
-    	or.setId(id);
     	try {
     		 response.setStatusCode("200","OK");
              response.outPut(or);

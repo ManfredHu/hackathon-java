@@ -1,6 +1,9 @@
 package com.hackathon.dao;
 
+import java.util.List;
+
 import com.hackathon.model.Food;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -16,4 +19,13 @@ public class FoodDao extends HibernateDaoSupport {
     public Food getFood(Integer id) {
         return getHibernateTemplate().get(Food.class,id);
     }
+    
+    /**
+     * 查询所有食物
+     * @return	返回所有食物实体
+     */
+    public List<Food> getAllFoods() {
+    	return (List<Food>)getHibernateTemplate().find("from Food");
+    }
+    
 }
