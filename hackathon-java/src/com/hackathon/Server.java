@@ -29,7 +29,7 @@ public class Server {
         ApplicationContext ctx =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
         Servlet.initServlet(ctx);
-        
+
 
         try {
             serverSocket = new ServerSocket(8080);
