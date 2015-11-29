@@ -63,8 +63,9 @@ public abstract class Servlet {
         servlets.put("/",ctx.getBean("Welcome",Servlet.class));
         servlets.put("/foods",ctx.getBean("Food",Servlet.class));
         servlets.put("/carts",ctx.getBean("Carts",Servlet.class));
-        servlets.put("/orders",ctx.getBean("Orders",Servlet.class));
+        servlets.put("/orders", ctx.getBean("Orders", Servlet.class));
         servlets.put("/admin/orders",ctx.getBean("AdminOrders",Servlet.class));
+        System.out.println("****realy init Over!!");
         //.....
     }
 
