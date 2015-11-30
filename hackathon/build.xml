@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="hackathon-java" basedir="." default="" >
+	<property name="src" value="src" />
+	<property name="dest" value="classes" />
+	<property name="lib" value="lib" />
+
+	<!-- 编译时jar包路径 -->
+	<path id="classpath_c" >
+		<fileset dir="${lib}" >
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- 运行时jar包以及项目源码路径 -->
+	<path id="classpath_r" >
+		<pathelement path="${dest}" />
+		<fileset dir="${lib}" >
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="compile" description="编译项目" >
+		<!-- 首先创建编译的目标文件夹 -->
+		<mkdir dir="${dest}" />
+
+		<javac destdir="${dest}" debug="true" includeantruntime="yes" 
+			deprecation="false" optimize="false" failonerror="true" encoding="UTF-8" >
+			<src path="${src}" />
+			<classpath refid="classpath_c" />
+		</javac>
+
+		<!-- 复制xml文件 -->
+		<copy todir="${dest}" >
+			<fileset dir="${src}" >
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+
+		<copy todir="${dest}/com/hackathon/model" >
+			<fileset dir="${src}/com/hackathon/model" >
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+
+
+	</target>
+
+	<target name="run" description="运行项目" depends="compile"  >
+		<java classname="com.hackathon.Server" fork="yes" failonerror="true" >
+			<classpath refid="classpath_r" />
+			<jvmarg value="-server" />  
+			<jvmarg value="-Xms2g" />
+			<jvmarg value="-Xmx2g" />
+			<jvmarg value="-Xmn768m" />
+		</java>
+	</target>
+</project>
