@@ -1,19 +1,10 @@
 package com.hackathon.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
 
-import org.aspectj.apache.bcel.generic.NEW;
-import org.springframework.expression.spel.ast.OpAnd;
 
 import com.google.gson.Gson;
-import com.hackathon.dao.CartDao;
 import com.hackathon.model.Cart;
 import com.hackathon.model.Order;
 import com.hackathon.model.Cart.Item;
@@ -44,14 +35,14 @@ public class OrdersApi extends Servlet {
     	Order order = orderDao.getUserOrder(Integer.parseInt(session.getArtribute("userId").toString()));
     	if(order!=null){
 	    	or.setId(order.getId());
-	    	for(Item item : order.getItems()){
-	    		or.addItem(item.getFoodID(),item.getCount());
-	    		sum +=item.getPrice()*item.getCount();
-	    	}
-	    	or.setTotal(sum);
+	    	or.setTotal(order.getTotal());
+			for(Item item : order.getItems()) {
+				or.addItem(item.getFoodID(),item.getCount());
+			}
 	    	
 	    	try {
-	        	response.outPut(or);
+				System.out.println("****Get Orders!!:: " +  new Gson().toJson(or));
+				response.outPut(or);
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("查询订单出错！");
@@ -111,7 +102,8 @@ public class OrdersApi extends Servlet {
     	}
     	
     	//超过下单次数限制
-    	if(orderDao.getUserOrder(Integer.parseInt(session.getArtribute("userId").toString())) != null) {
+		Integer userId = Integer.parseInt(session.getArtribute("userId").toString());
+		if(orderDao.getUserOrder(userId) != null) {
     				response.setStatusCode("403","Forbidden");
 	                ErrorResult er = new ErrorResult();
 	                er.setCode("ORDER_OUT_OF_LIMIT");
@@ -145,11 +137,12 @@ public class OrdersApi extends Servlet {
         
         	//成功
         	OrderResult or = new OrderResult();
-        	Order order = new Order((Integer)session.getArtribute(op.getCart_id()), 
-        			cart.getItems());
+
+        	Order order = new Order(userId, items);
         	foodDao.SubFoodCount(items);
         	orderDao.addOrder(order);
         	or.setId(order.getId().toString());
+
         	try {
                  response.outPut(or);
     		} catch (Exception e) {

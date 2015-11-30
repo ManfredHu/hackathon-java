@@ -59,7 +59,7 @@ public class Order {
         //每次设置订单项目时，更新总价格
         this.total = 0;
         for(Cart.Item item : this.items) {
-            total += item.getPrice();
+            total += item.getPrice()*item.getCount();
         }
     }
 }

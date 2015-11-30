@@ -69,12 +69,11 @@ public class OrderDao {
     	Gson gson = new Gson();
     	
     	for(Order order : orders.values()) {
-    		//System.out.println("*****@！@@@@: " + gson.toJson(order) + "\n");
     		Integer tmp = order.getUser_id();
     		if(tmp == userId) {
     			return order;
     		}
-    		System.out.println("*****@！@@@@: " + gson.toJson(order) + "\n");
+
     	}
     	return null;
     }

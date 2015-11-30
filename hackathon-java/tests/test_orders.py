@@ -86,12 +86,12 @@ def test_make_order(url, token, make_order, price_of):
 
     # verify query return the same order
     order = jget(url + "/orders", token).json()
-    # assert len(order["id"]) > 0
-    # assert len(order["items"]) == 1
+    assert len(order["id"]) > 0
+    assert len(order["items"]) == 1
 
     food = order["items"]
-    assert food["food_id"] == items["food_id"]
-    assert food["count"] == items["count"]
+    assert food[0]["food_id"] == items["food_id"]
+    assert food[0]["count"] == items["count"]
     assert order["total"] == sum(price_of(item["food_id"]) * item["count"]
                                  for item in order["items"])
 

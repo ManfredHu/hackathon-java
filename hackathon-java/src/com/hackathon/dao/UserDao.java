@@ -33,4 +33,5 @@ public class UserDao extends HibernateDaoSupport {
         }
         return users.get(0);
     }
+
 }
